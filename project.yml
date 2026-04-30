@@ -1,0 +1,60 @@
+name: ClaudeWidget
+options:
+  bundleIdPrefix: com.icaro
+  deploymentTarget:
+    macOS: "14.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    DEAD_CODE_STRIPPING: YES
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Automatic
+    # App Group entitlement can't be ad-hoc-signed; use Apple Development.
+    CODE_SIGN_IDENTITY: "Apple Development"
+    DEVELOPMENT_TEAM: S5U76HWZAU
+
+targets:
+  ClaudeWidget:
+    type: application
+    platform: macOS
+    sources:
+      - path: ClaudeWidget
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.icaro.claudewidget
+        PRODUCT_NAME: ClaudeWidget
+        GENERATE_INFOPLIST_FILE: YES
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "1.0"
+        INFOPLIST_KEY_LSUIElement: YES
+        INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026 Icaro Xenofonte"
+        INFOPLIST_KEY_CFBundleDisplayName: "Claude Widget"
+        ENABLE_APP_SANDBOX: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        CODE_SIGN_ENTITLEMENTS: ClaudeWidget/Resources/ClaudeWidget.entitlements
+    dependencies:
+      - target: ClaudeWidgetExtension
+        embed: true
+
+  ClaudeWidgetExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: ClaudeWidgetExtension
+        excludes:
+          - "Info.plist"
+          - "ClaudeWidgetExtension.entitlements"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.icaro.claudewidget.WidgetExtension
+        PRODUCT_NAME: ClaudeWidgetExtension
+        INFOPLIST_FILE: ClaudeWidgetExtension/Info.plist
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "1.0"
+        SKIP_INSTALL: YES
+        ENABLE_APP_SANDBOX: YES
+        CODE_SIGN_ENTITLEMENTS: ClaudeWidgetExtension/ClaudeWidgetExtension.entitlements
