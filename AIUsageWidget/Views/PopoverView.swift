@@ -13,7 +13,7 @@ struct PopoverView: View {
             header
 
             sourceSection(
-                title: "Claude",
+                source: .claude,
                 limits: store.claudeRateLimits,
                 lastUpdated: store.claudeLastUpdated
             )
@@ -21,7 +21,7 @@ struct PopoverView: View {
             Divider()
 
             sourceSection(
-                title: "Codex",
+                source: .codex,
                 limits: store.codexRateLimits,
                 lastUpdated: store.codexLastUpdated
             )
@@ -72,10 +72,11 @@ struct PopoverView: View {
     }
 
     @ViewBuilder
-    private func sourceSection(title: String, limits: RateLimits, lastUpdated: Date?) -> some View {
+    private func sourceSection(source: UsageSource, limits: RateLimits, lastUpdated: Date?) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text(title)
+                SourceBadge(source: source)
+                Text(source.title)
                     .font(.system(size: 12, weight: .semibold))
                 Spacer()
                 if let lastUpdated {
@@ -116,5 +117,54 @@ struct PopoverView: View {
         f.dateStyle = .none
         f.timeStyle = .short
         return f
+    }
+}
+
+private enum UsageSource {
+    case claude
+    case codex
+
+    var title: String {
+        switch self {
+        case .claude: return "Claude"
+        case .codex: return "Codex"
+        }
+    }
+
+    var symbolName: String {
+        switch self {
+        case .claude: return "sparkles"
+        case .codex: return "chevron.left.forwardslash.chevron.right"
+        }
+    }
+
+    var foreground: Color {
+        switch self {
+        case .claude: return Color(red: 1.00, green: 0.45, blue: 0.30)
+        case .codex: return Color(red: 0.35, green: 0.78, blue: 1.00)
+        }
+    }
+
+    var background: Color {
+        foreground.opacity(0.16)
+    }
+}
+
+private struct SourceBadge: View {
+    let source: UsageSource
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5, style: .continuous)
+                .fill(source.background)
+            Image(systemName: source.symbolName)
+                .font(.system(size: 10, weight: .bold))
+                .foregroundStyle(source.foreground)
+        }
+        .frame(width: 18, height: 18)
+        .alignmentGuide(.firstTextBaseline) { context in
+            context[VerticalAlignment.center] + 4
+        }
+        .accessibilityLabel(source.title)
     }
 }
