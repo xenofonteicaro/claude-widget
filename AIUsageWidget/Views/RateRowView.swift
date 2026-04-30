@@ -88,27 +88,3 @@ struct ProgressBar: View {
         }
     }
 }
-
-#Preview {
-    VStack(spacing: 14) {
-        RateRowView(
-            label: "Session",
-            limit: RateLimit(usedPercentage: 34, resetsAt: .now.addingTimeInterval(7_500)),
-            now: .now
-        )
-        RateRowView(
-            label: "Week (all)",
-            limit: RateLimit(usedPercentage: 88, resetsAt: .now.addingTimeInterval(86_400 * 4)),
-            now: .now
-        )
-        RateRowView(
-            label: "Week (Sonnet)",
-            limit: RateLimit(usedPercentage: 4, resetsAt: .now.addingTimeInterval(86_400 * 4)),
-            now: .now
-        )
-        RateRowView(label: "Reset", limit: RateLimit(usedPercentage: 92, resetsAt: .now.addingTimeInterval(-100)), now: .now)
-        RateRowView(label: "Missing", limit: nil, now: .now)
-    }
-    .padding()
-    .frame(width: 280)
-}

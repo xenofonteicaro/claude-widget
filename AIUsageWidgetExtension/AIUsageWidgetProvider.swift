@@ -1,15 +1,15 @@
 import WidgetKit
 
-struct ClaudeWidgetProvider: TimelineProvider {
-    func placeholder(in context: Context) -> ClaudeWidgetEntry {
+struct AIUsageWidgetProvider: TimelineProvider {
+    func placeholder(in context: Context) -> AIUsageWidgetEntry {
         .placeholder
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (ClaudeWidgetEntry) -> Void) {
+    func getSnapshot(in context: Context, completion: @escaping (AIUsageWidgetEntry) -> Void) {
         completion(currentEntry())
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<ClaudeWidgetEntry>) -> Void) {
+    func getTimeline(in context: Context, completion: @escaping (Timeline<AIUsageWidgetEntry>) -> Void) {
         let now = Date.now
         let current = currentEntry()
 
@@ -28,15 +28,15 @@ struct ClaudeWidgetProvider: TimelineProvider {
 
         var entries = [current]
         if let resetAt = nextReset {
-            entries.append(ClaudeWidgetEntry(date: resetAt, limits: current.limits, lastUpdated: current.lastUpdated))
+            entries.append(AIUsageWidgetEntry(date: resetAt, limits: current.limits, lastUpdated: current.lastUpdated))
         }
 
         let policy: TimelineReloadPolicy = .after(nextReset ?? now.addingTimeInterval(15 * 60))
         completion(Timeline(entries: entries, policy: policy))
     }
 
-    private func currentEntry() -> ClaudeWidgetEntry {
+    private func currentEntry() -> AIUsageWidgetEntry {
         let (limits, lastUpdated) = WidgetRateLimitsLoader.load()
-        return ClaudeWidgetEntry(date: .now, limits: limits, lastUpdated: lastUpdated)
+        return AIUsageWidgetEntry(date: .now, limits: limits, lastUpdated: lastUpdated)
     }
 }

@@ -1,8 +1,8 @@
 import SwiftUI
 import WidgetKit
 
-struct ClaudeWidgetView: View {
-    let entry: ClaudeWidgetEntry
+struct AIUsageWidgetView: View {
+    let entry: AIUsageWidgetEntry
     @Environment(\.widgetFamily) private var family
 
     var body: some View {
@@ -20,11 +20,11 @@ struct ClaudeWidgetView: View {
 // MARK: - Small (2x2): show the week-all bar — the most important long window.
 
 private struct SmallView: View {
-    let entry: ClaudeWidgetEntry
+    let entry: AIUsageWidgetEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("CLAUDE")
+            Text("AI")
                 .font(.system(size: 9, weight: .semibold))
                 .foregroundStyle(.secondary)
 
@@ -50,7 +50,7 @@ private struct SmallView: View {
                 Text("—%")
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundStyle(.secondary)
-                Text("Awaiting Claude Code")
+                Text("Awaiting CLI data")
                     .font(.system(size: 9))
                     .foregroundStyle(.secondary)
             }
@@ -62,11 +62,11 @@ private struct SmallView: View {
 // MARK: - Medium (4x2): three small columns, one per window.
 
 private struct MediumView: View {
-    let entry: ClaudeWidgetEntry
+    let entry: AIUsageWidgetEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("CLAUDE USAGE")
+            Text("AI USAGE")
                 .font(.system(size: 9, weight: .semibold))
                 .foregroundStyle(.secondary)
 
@@ -121,11 +121,11 @@ private struct MediumView: View {
 // MARK: - Large (4x4): full row layout — mirrors the popover.
 
 private struct LargeView: View {
-    let entry: ClaudeWidgetEntry
+    let entry: AIUsageWidgetEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("CLAUDE USAGE")
+            Text("AI USAGE")
                 .font(.system(size: 10, weight: .semibold))
                 .foregroundStyle(.secondary)
 

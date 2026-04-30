@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Minimal Settings window: shows pipeline health and how to install the
-/// statusLine capture script. No "always-on-top", no preferences UI in V1.
+/// capture script. No "always-on-top", no preferences UI in V1.
 struct SettingsView: View {
     @ObservedObject var store: RateLimitsStore
     @StateObject private var health = CaptureHealth()
@@ -9,9 +9,9 @@ struct SettingsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Claude Widget")
+                Text("AI Usage Widget")
                     .font(.title2.weight(.semibold))
-                Text("Reads usage from Claude Code's statusLine pipe.")
+                Text("Reads usage from Claude Code and Codex CLI hooks.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
@@ -24,9 +24,8 @@ struct SettingsView: View {
 
                 statusRow
 
-                Text("The widget needs a statusLine entry in `~/.claude/settings.json` "
-                     + "that pipes Claude Code's per-turn JSON into this app's container. "
-                     + "See the project README for the exact one-liner.")
+                Text("The widget needs Claude Code statusLine or Codex hook JSON "
+                     + "piped into this app's container. See the README for setup.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -48,7 +47,7 @@ struct SettingsView: View {
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 } else {
-                    Text("No file yet — run Claude Code once.")
+                    Text("No file yet - run Claude Code or Codex once.")
                         .font(.caption)
                         .foregroundStyle(.orange)
                 }
@@ -90,7 +89,7 @@ final class CaptureHealth: ObservableObject {
     var title: String {
         switch state {
         case .fresh:   return "Active"
-        case .stale:   return "Stale — run Claude Code to refresh"
+        case .stale:   return "Stale - run Claude Code or Codex to refresh"
         case .missing: return "Not configured"
         }
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-/// One rate-limit window emitted by Claude Code's statusLine pipe.
+/// One normalized rate-limit window emitted by a CLI capture script.
 struct RateLimit: Codable, Equatable, Hashable {
     let usedPercentage: Double
     let resetsAt: Date
@@ -35,7 +35,7 @@ struct RateLimit: Codable, Equatable, Hashable {
     }
 }
 
-/// The full payload extracted from `rate_limits` in the statusLine JSON.
+/// The normalized payload extracted from Claude Code or Codex usage JSON.
 /// All windows are optional because the upstream contract is permissive
 /// ("Optional: ... may be absent") and `seven_day_sonnet` is plan-dependent.
 struct RateLimits: Codable, Equatable {
@@ -50,4 +50,8 @@ struct RateLimits: Codable, Equatable {
     }
 
     static let empty = RateLimits(fiveHour: nil, sevenDay: nil, sevenDaySonnet: nil)
+
+    var hasAnyLimit: Bool {
+        fiveHour != nil || sevenDay != nil || sevenDaySonnet != nil
+    }
 }

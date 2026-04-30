@@ -7,7 +7,7 @@
 # - Patches project.yml with that team ID.
 # - Runs xcodegen.
 #
-# After this you can either open ClaudeWidget.xcodeproj in Xcode (⌘R) or run
+# After this you can either open AIUsageWidget.xcodeproj in Xcode (⌘R) or run
 # xcodebuild from the CLI.
 
 set -euo pipefail
@@ -79,24 +79,24 @@ fi
 # --- 3. Generate
 
 xcodegen generate >/dev/null
-echo "Generated ClaudeWidget.xcodeproj"
+echo "Generated AIUsageWidget.xcodeproj"
 
 cat <<EOF
 
 Done. Next:
 
-  open ClaudeWidget.xcodeproj   # then ⌘R in Xcode
+  open AIUsageWidget.xcodeproj   # then ⌘R in Xcode
   # or
-  xcodebuild -project ClaudeWidget.xcodeproj -scheme ClaudeWidget \\
+  xcodebuild -project AIUsageWidget.xcodeproj -scheme AIUsageWidget \\
              -configuration Debug -destination 'platform=macOS' build
 
-If Xcode complains about a bundle-ID conflict ("App ID 'com.icaro.claudewidget'
+If Xcode complains about a bundle-ID conflict ("App ID 'com.icaro.aiusagewidget'
 is not available"), it's because that ID is already registered to a different
 team in Apple's portal. Edit project.yml and change occurrences of
-"com.icaro.claudewidget" to a unique reverse-DNS prefix, then re-run this
+"com.icaro.aiusagewidget" to a unique reverse-DNS prefix, then re-run this
 script.
 
-Once built, install the statusLine capture:
+Once built, install the shared capture script for Claude Code:
 
   mkdir -p ~/.claude/widget
   cp scripts/capture.sh ~/.claude/widget/capture.sh
@@ -104,6 +104,16 @@ Once built, install the statusLine capture:
   jq '. + {statusLine: {type: "command", command: "~/.claude/widget/capture.sh"}}' \\
       ~/.claude/settings.json > /tmp/s && mv /tmp/s ~/.claude/settings.json
 
-Then start a new Claude Code session — the menu bar will populate after the
-first turn.
+Then start a new Claude Code session. Existing sessions do not re-read settings.
+
+To feed Codex hook payloads into the same widget, add the capture command to
+~/.codex/hooks.json. Codex passes hook JSON as the first argument, and this
+script supports that form:
+
+  mkdir -p ~/.codex/widget
+  cp scripts/capture.sh ~/.codex/widget/capture.sh
+  chmod +x ~/.codex/widget/capture.sh
+
+Use the README for a complete hooks.json example. The menu bar will populate
+after Codex emits a hook payload containing supported usage-limit fields.
 EOF

@@ -23,7 +23,7 @@ struct WidgetRateLimits: Equatable {
 }
 
 enum WidgetAppGroup {
-    static let identifier = "group.icaro.claudewidget"
+    static let identifier = "group.icaro.aiusagewidget"
 
     static var latestURL: URL? {
         FileManager.default

@@ -1,15 +1,18 @@
 #!/bin/bash
-# Phase 1 debug capture — writes the FULL statusLine stdin JSON to a debug log.
-# Use this to verify which `rate_limits` keys Claude Code emits for your plan,
-# specifically whether `seven_day_sonnet` is present.
+# Debug capture: writes the full Claude statusLine or Codex hook JSON to a log.
+# Use this to verify which limit keys your local CLI emits.
 #
-# After 1-2 turns of Claude Code activity, inspect ~/.claudewidget-debug.log
-# and confirm that `rate_limits.{five_hour,seven_day,seven_day_sonnet}` are present.
+# After 1-2 turns, inspect ~/.aiusagewidget-debug.log and confirm that keys
+# such as `rate_limits`, `five_hour`, `seven_day`, or Codex usage windows exist.
 
 set -e
 
-LOG="$HOME/.claudewidget-debug.log"
-INPUT=$(cat)
+LOG="$HOME/.aiusagewidget-debug.log"
+if [ -n "$1" ]; then
+  INPUT="$1"
+else
+  INPUT=$(cat)
+fi
 
 # Append timestamp + raw JSON (one record per line, JSON Lines style).
 {

@@ -2,7 +2,7 @@ import SwiftUI
 import AppKit
 
 @main
-struct ClaudeWidgetApp: App {
+struct AIUsageWidgetApp: App {
     @StateObject private var store = RateLimitsStore()
     @Environment(\.openWindow) private var openWindow
 
@@ -14,11 +14,14 @@ struct ClaudeWidgetApp: App {
                 quit: { NSApplication.shared.terminate(nil) }
             )
         } label: {
-            MenuBarLabel(rateLimits: store.rateLimits)
+            MenuBarLabel(
+                claude: store.claudeRateLimits,
+                codex: store.codexRateLimits
+            )
         }
         .menuBarExtraStyle(.window)
 
-        Window("Claude Widget", id: "settings") {
+        Window("AI Usage Widget", id: "settings") {
             SettingsView(store: store)
         }
         .windowResizability(.contentSize)

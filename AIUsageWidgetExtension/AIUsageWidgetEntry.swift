@@ -1,11 +1,11 @@
 import WidgetKit
 
-struct ClaudeWidgetEntry: TimelineEntry {
+struct AIUsageWidgetEntry: TimelineEntry {
     let date: Date
     let limits: WidgetRateLimits
     let lastUpdated: Date?
 
-    static let placeholder = ClaudeWidgetEntry(
+    static let placeholder = AIUsageWidgetEntry(
         date: .now,
         limits: WidgetRateLimits(
             fiveHour:       WidgetRateLimit(usedPercentage: 34, resetsAt: .now.addingTimeInterval(7_500)),
